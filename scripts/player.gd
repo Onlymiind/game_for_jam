@@ -12,3 +12,13 @@ func _physics_process(delta: float) -> void:
 	
 	velocity = dir * current_speed * Constants.tile_size
 	move_and_slide()
+
+func set_item_stash(stash: ItemStash) -> void:
+	pass
+
+func remove_current_item_stash() -> void:
+	pass
+
+func teleport_to_ladder(pos: Vector2) -> void:
+	global_position = pos
+	velocity = Vector2.ZERO

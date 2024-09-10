@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://u5pgj80rhcuf"]
+
+[ext_resource type="Texture2D" uid="uid://b231djksrcp1m" path="res://assets/звезда.png" id="1_0w4n6"]
+[ext_resource type="Script" path="res://scripts/item_stash.gd" id="1_ljmal"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xviav"]
+atlas = ExtResource("1_0w4n6")
+region = Rect2(2, 1, 12, 12)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o76gv"]
+radius = 16.1245
+
+[sub_resource type="LabelSettings" id="LabelSettings_1mrf5"]
+font_size = 10
+
+[sub_resource type="Animation" id="Animation_fksx4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(100, 100, 100, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_84krb"]
+resource_name = "blink"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.966667, 2, 3, 4, 5, 6),
+"transitions": PackedFloat32Array(2.63902, 1, 2.63902, 1, 2.63902, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0irwa"]
+_data = {
+"RESET": SubResource("Animation_fksx4"),
+"blink": SubResource("Animation_84krb")
+}
+
+[node name="item_stash" type="Area2D"]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_ljmal")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(100, 100, 100, 1)
+texture = SubResource("AtlasTexture_xviav")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_o76gv")
+
+[node name="tooltip" type="Label" parent="."]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -26.0
+offset_top = -25.0
+offset_right = 26.0
+offset_bottom = -11.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+text = "F - interact"
+label_settings = SubResource("LabelSettings_1mrf5")
+
+[node name="animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0irwa")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
