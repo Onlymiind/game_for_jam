@@ -16,7 +16,10 @@ func enable() -> void:
 	collision.disabled = false
 
 func get_bounding_box() -> Rect2:
-	return Rect2(global_position, Vector2(64, 64))
+	return Rect2(global_position - Vector2(32, 32), Vector2(64, 64))
+
+func set_top_left_pos(pos: Vector2) -> void:
+	global_position = pos + Vector2(32, 32)
 
 func get_hovered_item() -> Item:
 	if hovered_items.is_empty():

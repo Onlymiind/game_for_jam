@@ -7,6 +7,10 @@ class_name Item extends Area2D
 
 func get_bounding_box() -> Rect2:
 	var bounding_box: Rect2 = sprite.get_rect()
+	if abs(rotation - PI / 2) < 1e-3 || abs(rotation - 3 * PI / 2) < 1e-3:
+		var x: int = bounding_box.size.x
+		bounding_box.size.x = bounding_box.size.y
+		bounding_box.size.y = x
 	bounding_box.position = sprite.global_position - bounding_box.size / 2
 	return bounding_box
 

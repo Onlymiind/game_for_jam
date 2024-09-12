@@ -12,6 +12,7 @@ var intersection_count: int = 0
 func _ready() -> void:
 	bounding_rect = camera.get_viewport_rect()
 	bounding_rect.position = -bounding_rect.size / 2
+	cursor.set_top_left_pos(bounding_rect.position)
 	for i in range(get_child_count()):
 		var child = get_child(i)
 		if child is Item:
@@ -31,6 +32,9 @@ func _input(event: InputEvent) -> void:
 		move(Vector2(Constants.item_tile_size, 0))
 	elif event.is_action_pressed("rotate_item") && held_item != null:
 		rotate_held_item()
+	elif event.is_action_pressed("delete_item") && held_item != null:
+		held_item.queue_free()
+		force_put_item()
 	elif event.is_action_pressed("debug_spawn_item") && held_item == null:
 		var new_item: Item = item_scene.instantiate()
 		add_child(new_item)
@@ -75,27 +79,27 @@ func take_item(item: Item) -> void:
 func try_put_held_item() -> void:
 	if intersection_count > 0:
 		return
+	force_put_item()
+
+func force_put_item() -> void:
 	held_item.set_inactive()
-	cursor.global_position = held_item.global_position
+	cursor.set_top_left_pos(held_item.get_bounding_box().position)
 	cursor.enable()
 	held_item = null
+	intersection_count = 0
 
 func rotate_held_item() -> void:
 	if held_item == null:
 		return
-	var item_rotation: float = (held_item.rotation + PI / 2)
-	if abs(item_rotation - 2 * PI) < 1e-3:
-		item_rotation = 0
-	elif item_rotation > 2 * PI:
-		item_rotation -= 2 * PI
-	var item_bounding_box = held_item.get_bounding_box()
-	if abs(item_rotation - PI / 2) < 1e-3 || abs(item_rotation - 3 * PI / 2) < 1e-3:
-		var x: int = item_bounding_box.size.x
-		item_bounding_box.size.x = item_bounding_box.size.y
-		item_bounding_box.size.y = item_bounding_box.size.x
+	var previous_rotation: float = held_item.rotation
+	held_item.rotation += PI / 2
+	if abs(held_item.rotation - 2 * PI) < 1e-3:
+		held_item.rotation = 0
+	elif held_item.rotation > 2 * PI:
+		held_item.rotation -= 2 * PI
+	var item_bounding_box: Rect2 = held_item.get_bounding_box()
 	if !bounding_rect.encloses(item_bounding_box):
-		return
-	held_item.rotation = item_rotation
+		held_item.rotation = previous_rotation
 
 func move_object(object: Area2D, translation: Vector2) -> void:
 	var item_bounding_box: Rect2 = object.get_bounding_box()
