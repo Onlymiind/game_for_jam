@@ -9,12 +9,12 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
-		(body as Player).set_item_stash(self)
+		(body as Player).add_item_stash(self)
 		tooltip.show()
 
 func _on_body_exited(body: Node2D) -> void:
 	if body is Player:
-		(body as Player).remove_current_item_stash()
+		(body as Player).remove_item_stash(self)
 		tooltip.hide()
 
 func take_item(idx: int) -> int:

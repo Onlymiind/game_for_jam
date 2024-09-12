@@ -5,6 +5,8 @@ class_name Item extends Area2D
 @onready var outline: Polygon2D = $outline
 @onready var outline_animation: AnimationPlayer = $outline_animation
 
+var current_id: int
+
 func get_bounding_box() -> Rect2:
 	var bounding_box: Rect2 = sprite.get_rect()
 	if abs(rotation - PI / 2) < 1e-3 || abs(rotation - 3 * PI / 2) < 1e-3:
@@ -35,6 +37,7 @@ func set_id(id: int) -> void:
 	sprite.texture = ItemDb.item_textures[id]
 	collision.polygon = ItemDb.item_hitboxes[id]
 	outline.polygon = ItemDb.item_hitboxes[id]
+	current_id = id
 
 func set_top_left_pos(pos: Vector2) -> void:
 	global_position = pos + sprite.get_rect().size / 2

@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://7xxhpdkois3p" path="res://ladder.tscn" id="4_6gxvl"]
 [ext_resource type="PackedScene" uid="uid://ccjt185l1ae63" path="res://pause_menu.tscn" id="4_ktec1"]
 [ext_resource type="PackedScene" uid="uid://dxmfhgqkyen2y" path="res://inventory.tscn" id="5_c2b3x"]
+[ext_resource type="PackedScene" uid="uid://cvwyykdvxj10" path="res://inventory_ui.tscn" id="7_102k6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uims5"]
 texture = ExtResource("1_qnkjg")
@@ -1004,9 +1005,6 @@ separation = Vector2i(1, 1)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_dm1ey")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_4842b"]
-viewport_path = NodePath("pausable/SubViewport")
-
 [node name="world" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_2dabk")
@@ -1047,47 +1045,13 @@ tile_set = SubResource("TileSet_e0tdy")
 
 [node name="ui" type="CanvasLayer" parent="."]
 
-[node name="inventory" type="Control" parent="ui"]
+[node name="inventory" parent="ui" node_paths=PackedStringArray("inventory_viewport", "inventory") instance=ExtResource("7_102k6")]
 visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="ui/inventory"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -256.0
-offset_right = 160.0
-offset_bottom = 256.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("ViewportTexture_4842b")
-
-[node name="Label" type="Label" parent="ui/inventory"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "WASD - move item
-R - rotate item
-Backspace - delete item
-Enter - pick up/place item"
+inventory_viewport = NodePath("../../pausable/SubViewport")
+inventory = NodePath("../../pausable/SubViewport/inventory")
 
 [node name="item_stash_inventory" type="Control" parent="ui"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -1096,6 +1060,7 @@ offset_bottom = 40.0
 [node name="pause_menu" parent="ui" instance=ExtResource("4_ktec1")]
 visible = false
 
+[connection signal="open_item_shash" from="pausable/world/player" to="." method="_on_open_item_stash"]
 [connection signal="resume" from="ui/pause_menu" to="." method="_on_resume"]
 
 [editable path="pausable/world/ladder"]

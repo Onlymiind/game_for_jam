@@ -1,0 +1,68 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvwyykdvxj10"]
+
+[ext_resource type="Script" path="res://scripts/inventory_ui.gd" id="1_k2yd7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vqkwr"]
+
+[node name="inventory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_k2yd7")
+
+[node name="display" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -256.0
+offset_right = 160.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -198.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="stash_ui" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="warning" type="Label" parent="MarginContainer/stash_ui"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_vqkwr")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/stash_ui"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="MarginContainer/stash_ui/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+allow_reselect = true
+allow_search = false
+
+[node name="control_hint" type="Label" parent="MarginContainer/stash_ui"]
+layout_mode = 2
+text = "WASD - move item
+R - rotate item
+Backspace - move item to stash
+Enter - pick up/place item"
+
+[connection signal="item_selected" from="MarginContainer/stash_ui/ScrollContainer/ItemList" to="." method="_on_item_selected"]

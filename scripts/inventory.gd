@@ -9,6 +9,8 @@ var item_scene: PackedScene = preload("res://item.tscn")
 var bounding_rect: Rect2
 var intersection_count: int = 0
 
+signal item_removed(id: int)
+
 func _ready() -> void:
 	bounding_rect = camera.get_viewport_rect()
 	bounding_rect.position = -bounding_rect.size / 2
@@ -33,17 +35,9 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("rotate_item") && held_item != null:
 		rotate_held_item()
 	elif event.is_action_pressed("delete_item") && held_item != null:
+		item_removed.emit(held_item.current_id)
 		held_item.queue_free()
 		force_put_item()
-	elif event.is_action_pressed("debug_spawn_item") && held_item == null:
-		var new_item: Item = item_scene.instantiate()
-		add_child(new_item)
-		new_item.set_id(randi_range(0, ItemDb.get_item_count() - 1))
-		new_item.set_top_left_pos(bounding_rect.position)
-		new_item.area_entered.connect(_on_item_area_entered)
-		new_item.area_exited.connect(_on_item_area_exited)
-		print(new_item.get_bounding_box())
-		take_item(new_item)
 	elif event.is_action_pressed("accept"):
 		if held_item == null:
 			var hovered_item: Item = cursor.get_hovered_item()
@@ -75,6 +69,18 @@ func take_item(item: Item) -> void:
 	held_item = item
 	cursor.disable()
 	held_item.set_active()
+
+func try_spawn_item(id: int) -> bool:
+	if held_item != null:
+		return false
+	var new_item: Item = item_scene.instantiate()
+	add_child(new_item)
+	new_item.set_id(id)
+	new_item.set_top_left_pos(bounding_rect.position)
+	new_item.area_entered.connect(_on_item_area_entered)
+	new_item.area_exited.connect(_on_item_area_exited)
+	take_item(new_item)
+	return true
 
 func try_put_held_item() -> void:
 	if intersection_count > 0:

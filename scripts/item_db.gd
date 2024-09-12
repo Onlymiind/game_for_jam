@@ -9,6 +9,15 @@ const item_texture_files: PackedStringArray = [
 	"res://assets/3-торшер.png"
 	]
 
+const item_names: PackedStringArray = [
+	"Necklace",
+	"Phone",
+	"Mask",
+	"Weird vase",
+	"TV",
+	"Floor lamp",
+]
+
 var item_hitboxes: Array[PackedVector2Array]
 var item_textures: Array[ImageTexture]
 
