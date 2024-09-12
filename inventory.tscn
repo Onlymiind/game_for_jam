@@ -1,24 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://dxmfhgqkyen2y"]
+[gd_scene load_steps=3 format=3 uid="uid://dxmfhgqkyen2y"]
 
 [ext_resource type="Script" path="res://scripts/inventory.gd" id="1_msfnq"]
-[ext_resource type="PackedScene" uid="uid://tkti6l2xpu0r" path="res://item.tscn" id="1_nalwq"]
 [ext_resource type="PackedScene" uid="uid://edunoh4ekaey" path="res://cursor.tscn" id="3_faa7w"]
 
 [node name="inventory" type="Node2D"]
 script = ExtResource("1_msfnq")
 
 [node name="camera" type="Camera2D" parent="."]
-
-[node name="item" parent="." instance=ExtResource("1_nalwq")]
-
-[node name="item2" parent="." instance=ExtResource("1_nalwq")]
-position = Vector2(-202, 0)
-
-[node name="item3" parent="." instance=ExtResource("1_nalwq")]
-position = Vector2(-56, -72)
-
-[node name="item4" parent="." instance=ExtResource("1_nalwq")]
-position = Vector2(88, 48)
 
 [node name="cursor" parent="." instance=ExtResource("3_faa7w")]
 z_index = 32

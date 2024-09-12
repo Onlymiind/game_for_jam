@@ -31,3 +31,6 @@ func set_id(id: int) -> void:
 	sprite.texture = ItemDb.item_textures[id]
 	collision.polygon = ItemDb.item_hitboxes[id]
 	outline.polygon = ItemDb.item_hitboxes[id]
+
+func set_top_left_pos(pos: Vector2) -> void:
+	global_position = pos + sprite.get_rect().size / 2

@@ -4,6 +4,8 @@ class_name Inventory extends Node2D
 @onready var cursor: Cursor = $cursor
 @onready var camera: Camera2D = $camera
 
+var item_scene: PackedScene = preload("res://item.tscn")
+
 var bounding_rect: Rect2
 var intersection_count: int = 0
 
@@ -20,28 +22,32 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("down"):
-		move(Vector2(0, Constants.tile_size))
+		move(Vector2(0, Constants.item_tile_size))
 	elif event.is_action_pressed("up"):
-		move(Vector2(0, -Constants.tile_size))
+		move(Vector2(0, -Constants.item_tile_size))
 	elif event.is_action_pressed("left"):
-		move(Vector2(-Constants.tile_size, 0))
+		move(Vector2(-Constants.item_tile_size, 0))
 	elif event.is_action_pressed("right"):
-		move(Vector2(Constants.tile_size, 0))
+		move(Vector2(Constants.item_tile_size, 0))
 	elif event.is_action_pressed("rotate_item") && held_item != null:
 		rotate_held_item()
+	elif event.is_action_pressed("debug_spawn_item") && held_item == null:
+		var new_item: Item = item_scene.instantiate()
+		add_child(new_item)
+		new_item.set_id(randi_range(0, ItemDb.get_item_count() - 1))
+		new_item.set_top_left_pos(bounding_rect.position)
+		new_item.area_entered.connect(_on_item_area_entered)
+		new_item.area_exited.connect(_on_item_area_exited)
+		print(new_item.get_bounding_box())
+		take_item(new_item)
 	elif event.is_action_pressed("accept"):
 		if held_item == null:
 			var hovered_item: Item = cursor.get_hovered_item()
 			if hovered_item == null:
 				return
-			held_item = hovered_item
-			cursor.disable()
-			held_item.set_active()
-		elif held_item != null && intersection_count == 0:
-			held_item.set_inactive()
-			cursor.global_position = held_item.global_position
-			cursor.enable()
-			held_item = null
+			take_item(hovered_item)
+		elif held_item != null:
+			try_put_held_item()
 
 func _on_item_area_entered(body: Node2D) -> void:
 	if body == held_item:
@@ -60,6 +66,19 @@ func move(translation: Vector2) -> void:
 		move_object(held_item, translation)
 	else:
 		move_object(cursor, translation)
+
+func take_item(item: Item) -> void:
+	held_item = item
+	cursor.disable()
+	held_item.set_active()
+
+func try_put_held_item() -> void:
+	if intersection_count > 0:
+		return
+	held_item.set_inactive()
+	cursor.global_position = held_item.global_position
+	cursor.enable()
+	held_item = null
 
 func rotate_held_item() -> void:
 	if held_item == null:

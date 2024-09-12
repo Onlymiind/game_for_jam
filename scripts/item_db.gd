@@ -1,10 +1,12 @@
 extends Node
 
 const item_texture_files: PackedStringArray = [
-	"res://assets/1колье.png",
-	"res://assets/1телефон.png",
-	"res://assets/3маска.png",
-	"res://assets/3помидорнытигр.png"
+	"res://assets/1-колье.png",
+	"res://assets/1-телефон.png",
+	"res://assets/2-маска.png",
+	"res://assets/3-помидорнытигр.png",
+	"res://assets/4-телевизор.png",
+	"res://assets/3-торшер.png"
 	]
 
 var item_hitboxes: Array[PackedVector2Array]
