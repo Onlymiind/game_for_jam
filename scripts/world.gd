@@ -4,15 +4,12 @@ var player_dead: bool = false
 @onready var pause_menu: Control = $ui/pause_menu
 @onready var world_objects: Node = $pausable/world
 @onready var inventory_ui: InventoryUI = $ui/inventory
-@onready var inventory: Node2D = $pausable/SubViewport/inventory
+@onready var inventory: Inventory = $pausable/SubViewport/inventory
 
 @onready var stash: ItemStash = $pausable/world/item_stash
 
 var is_in_inventory: bool = false
-
-func _ready() -> void:
-	for i in range(24):
-		stash.items.append(randi_range(0, ItemDb.get_item_count() - 1))
+var opened_stash: ItemStash
 
 func _input(event:InputEvent):
 	if event.is_action_pressed("pause"):
@@ -29,19 +26,27 @@ func _input(event:InputEvent):
 
 func switch_inventory_status() -> void:
 	if is_in_inventory:
+		if !inventory.can_close():
+			inventory_ui.show_cannot_close_warning()
+			return
 		world_objects.process_mode = Node.PROCESS_MODE_INHERIT
 		inventory.hide()
 		inventory_ui.hide()
+		inventory_ui.close()
 		inventory.process_mode = Node.PROCESS_MODE_DISABLED
 		is_in_inventory = false
+		if opened_stash != null:
+			opened_stash.update_status()
+			opened_stash = null
 	else:
 		open_inventory(null)
 
 func open_inventory(item_stash: ItemStash) -> void:
 	world_objects.process_mode = Node.PROCESS_MODE_DISABLED
-	inventory.show()
-	inventory_ui.show()
 	inventory.process_mode = Node.PROCESS_MODE_INHERIT
+	inventory.show()
+	inventory.force_update_cursor()
+	inventory_ui.show()
 	is_in_inventory = true
 	if item_stash == null:
 		inventory_ui.clear_items()
@@ -55,6 +60,7 @@ func _on_resume():
 	pause_menu.visible = false
 
 func _on_open_item_stash(item_stash: ItemStash) -> void:
+	opened_stash = item_stash
 	open_inventory(item_stash)
 
 #func _on_quit_to_menu():

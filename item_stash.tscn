@@ -18,7 +18,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/path = NodePath("star:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -35,7 +35,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/path = NodePath("star:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -57,7 +57,9 @@ collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_ljmal")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="object" type="Sprite2D" parent="."]
+
+[node name="star" type="Sprite2D" parent="."]
 self_modulate = Color(100, 100, 100, 1)
 texture = SubResource("AtlasTexture_xviav")
 
@@ -66,6 +68,7 @@ shape = SubResource("CircleShape2D_o76gv")
 
 [node name="tooltip" type="Label" parent="."]
 visible = false
+z_index = 64
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5

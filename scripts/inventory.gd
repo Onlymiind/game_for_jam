@@ -3,6 +3,7 @@ class_name Inventory extends Node2D
 @onready var held_item: Item
 @onready var cursor: Cursor = $cursor
 @onready var camera: Camera2D = $camera
+@onready var items: Node = $items
 
 var item_scene: PackedScene = preload("res://item.tscn")
 
@@ -74,7 +75,7 @@ func try_spawn_item(id: int) -> bool:
 	if held_item != null:
 		return false
 	var new_item: Item = item_scene.instantiate()
-	add_child(new_item)
+	items.add_child(new_item)
 	new_item.set_id(id)
 	new_item.set_top_left_pos(bounding_rect.position)
 	new_item.area_entered.connect(_on_item_area_entered)
@@ -113,3 +114,10 @@ func move_object(object: Area2D, translation: Vector2) -> void:
 	if not bounding_rect.encloses(item_bounding_box):
 		return
 	object.position += translation
+
+func force_update_cursor() -> void:
+	cursor.disable()
+	cursor.enable()
+
+func can_close() -> bool:
+	return held_item == null

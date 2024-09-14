@@ -10,3 +10,5 @@ script = ExtResource("1_msfnq")
 
 [node name="cursor" parent="." instance=ExtResource("3_faa7w")]
 z_index = 32
+
+[node name="items" type="Node" parent="."]

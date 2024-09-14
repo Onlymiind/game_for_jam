@@ -101,6 +101,8 @@ interact={
 2d_physics/layer_2="player"
 2d_physics/layer_3="item_stash"
 2d_physics/layer_4="item_ui"
+2d_physics/layer_5="teleportable"
+2d_physics/layer_6="cop"
 
 [rendering]
 

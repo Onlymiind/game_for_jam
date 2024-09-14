@@ -18,6 +18,15 @@ const item_names: PackedStringArray = [
 	"Floor lamp",
 ]
 
+const item_scores: PackedInt32Array = [
+	1500,
+	2000,
+	4000,
+	4500,
+	8000,
+	3500
+]
+
 var item_hitboxes: Array[PackedVector2Array]
 var item_textures: Array[ImageTexture]
 

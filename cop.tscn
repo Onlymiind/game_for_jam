@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmxkc673gdxpm"]
+
+[ext_resource type="Script" path="res://scripts/cop.gd" id="1_f0pa1"]
+[ext_resource type="Texture2D" uid="uid://cajyyhyibvcp" path="res://assets/5-коп.png" id="2_d736i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wpepc"]
+size = Vector2(32, 32)
+
+[node name="cop" type="CharacterBody2D"]
+collision_layer = 48
+motion_mode = 1
+script = ExtResource("1_f0pa1")
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_d736i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6, 15)
+shape = SubResource("RectangleShape2D_wpepc")
+
+[node name="agent" type="NavigationAgent2D" parent="."]
+path_desired_distance = 4.0
+target_desired_distance = 4.0
+debug_enabled = true
+
+[node name="ladder_reset" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="sight" type="RayCast2D" parent="."]
+
+[connection signal="timeout" from="ladder_reset" to="." method="_on_ladder_reset"]
