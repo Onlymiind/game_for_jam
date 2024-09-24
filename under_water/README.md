@@ -1,6 +1,6 @@
 # Under Water
 
-This game is a submission to GMTK Game Jam 2024
+This game is a submission to GMTK Game Jam 2024. The game was created by me (programming) and my wife (art)
 
 The game can be played here: https://onlymind.itch.io/under-water
 

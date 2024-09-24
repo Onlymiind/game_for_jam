@@ -2,6 +2,7 @@
 This game is a submission to Brackeys Game Jam 2024.2 created by me (programming) and my wife (art)
 
 The game can be played here: https://onlymind.itch.io/pixel-thief
+
 Note that due to jam's rating period not being over yet, the published version differs a bit with the version here (the game will be updated on Itch when the jam is over).
 
 Code can be found in `scripts` directory.
