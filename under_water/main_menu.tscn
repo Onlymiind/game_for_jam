@@ -1,0 +1,85 @@
+[gd_scene load_steps=6 format=3 uid="uid://ctflkgkq36ww2"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_4ilga"]
+[ext_resource type="Texture2D" uid="uid://ds3we3mekcoh7" path="res://assets/фоник.jpg" id="1_ga88p"]
+[ext_resource type="Script" path="res://scripts/settings.gd" id="2_gafjy"]
+[ext_resource type="PackedScene" uid="uid://gqhmmr6yq8y2" path="res://sound_slider.tscn" id="3_dhsfh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqiw0"]
+atlas = ExtResource("1_ga88p")
+region = Rect2(110, 50, 1280, 720)
+
+[node name="Control" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_kqiw0")
+
+[node name="main_menu" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -50.5
+offset_right = 35.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("1_4ilga")
+
+[node name="play" type="Button" parent="main_menu"]
+layout_mode = 2
+text = "Play"
+
+[node name="settings" type="Button" parent="main_menu"]
+layout_mode = 2
+text = "Settings"
+
+[node name="quit" type="Button" parent="main_menu"]
+layout_mode = 2
+text = "Quit"
+
+[node name="settings" type="VBoxContainer" parent="." node_paths=PackedStringArray("back", "parent")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -83.0
+offset_top = -25.0
+offset_right = 82.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("2_gafjy")
+back = NodePath("back")
+parent = NodePath("../main_menu")
+
+[node name="sound_slider" parent="settings" instance=ExtResource("3_dhsfh")]
+layout_mode = 2
+
+[node name="back" type="Button" parent="settings"]
+layout_mode = 2
+text = "back"
+
+[connection signal="pressed" from="main_menu/play" to="main_menu" method="_on_play_pressed"]
+[connection signal="pressed" from="main_menu/settings" to="settings" method="activate"]
+[connection signal="pressed" from="main_menu/quit" to="main_menu" method="_on_quit_pressed"]

@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnahfq0cmg3ri"]
+
+[ext_resource type="Texture2D" uid="uid://ctf5l38s1g5f4" path="res://assets/осьмушка1.png" id="1_1pq2h"]
+[ext_resource type="Script" path="res://scripts/octopus.gd" id="1_ib500"]
+[ext_resource type="Texture2D" uid="uid://cuvwoojmnbeui" path="res://assets/осьмушка2.png" id="2_r2fok"]
+[ext_resource type="Texture2D" uid="uid://bttg33skud2em" path="res://assets/осьмушка3.png" id="3_jkdut"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6n76s"]
+radius = 25.0
+height = 126.0
+
+[node name="octopus" type="CharacterBody2D"]
+z_index = 251
+collision_layer = 0
+collision_mask = 5
+script = ExtResource("1_ib500")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+scale = Vector2(9.48361, 4.22467)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_6n76s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_1pq2h")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_r2fok")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+visible = false
+rotation = 1.91986
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_jkdut")
+
+[node name="Timer" type="Timer" parent="."]

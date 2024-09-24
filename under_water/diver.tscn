@@ -1,0 +1,115 @@
+[gd_scene load_steps=12 format=3 uid="uid://p5otstfkb6ge"]
+
+[ext_resource type="Script" path="res://scripts/diver.gd" id="1_jbn6v"]
+[ext_resource type="Texture2D" uid="uid://hl1doty75ifh" path="res://assets/чел.png" id="2_pxgrd"]
+[ext_resource type="Texture2D" uid="uid://b1prl0v21myaa" path="res://assets/большой пуз.png" id="3_vjxvh"]
+[ext_resource type="Texture2D" uid="uid://ckun363awrpb" path="res://assets/мал пуз.png" id="4_vskav"]
+[ext_resource type="Texture2D" uid="uid://dbvvvr8wdia3s" path="res://assets/стрелка.png" id="5_k4bii"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gldwd"]
+radius = 15.1906
+height = 49.1883
+
+[sub_resource type="LabelSettings" id="LabelSettings_esduy"]
+line_spacing = 0.0
+font_size = 12
+font_color = Color(0, 0, 0, 1)
+outline_size = 2
+
+[sub_resource type="Curve" id="Curve_6tvc1"]
+_data = [Vector2(0.0133333, 1), 0.0, 0.0, 0, 0, Vector2(0.126667, 0.505494), 0.0, 0.0, 0, 0, Vector2(1, 0.0879121), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_4nii2"]
+curve_y = SubResource("Curve_6tvc1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r2j8a"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 2.44
+direction = Vector3(0, -1, 0)
+spread = 10.0
+initial_velocity_min = 30.0
+initial_velocity_max = 50.0
+directional_velocity_min = 1.0
+directional_velocity_max = 1.0
+directional_velocity_curve = SubResource("CurveXYZTexture_4nii2")
+gravity = Vector3(0, 0, 0)
+scale_min = 0.7
+scale_max = 0.7
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w0rvn"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 18.708
+initial_velocity_min = 112.36
+initial_velocity_max = 112.36
+gravity = Vector3(0, -98, 0)
+scale_min = 0.7
+scale_max = 0.7
+
+[node name="diver" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "camera", "collision")]
+z_index = 253
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_jbn6v")
+oxygen_usage = 0.5
+speed = 100.0
+inertia = 0.9
+sprite = NodePath("Sprite2D")
+camera = NodePath("Camera2D")
+collision = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 0.47822
+shape = SubResource("CapsuleShape2D_gldwd")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 3
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("2_pxgrd")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+zoom = Vector2(2, 2)
+limit_left = -1280
+limit_top = -720
+limit_right = 6848
+limit_bottom = 2160
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -40.0
+offset_top = -56.0
+offset_right = 112.0
+offset_bottom = -33.0
+text = "F - interact"
+label_settings = SubResource("LabelSettings_esduy")
+
+[node name="breathing" type="GPUParticles2D" parent="."]
+position = Vector2(-7, -23)
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_r2j8a")
+texture = ExtResource("3_vjxvh")
+lifetime = 10.0
+
+[node name="sprint" type="GPUParticles2D" parent="."]
+position = Vector2(-23, 0)
+amount = 9
+process_material = SubResource("ParticleProcessMaterial_w0rvn")
+texture = ExtResource("4_vskav")
+lifetime = 0.7
+
+[node name="arrow" type="Node2D" parent="."]
+visible = false
+z_index = 100
+
+[node name="Sprite2D" type="Sprite2D" parent="arrow"]
+position = Vector2(127, 0)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("5_k4bii")
+
+[node name="invincibility" type="Timer" parent="."]
+one_shot = true

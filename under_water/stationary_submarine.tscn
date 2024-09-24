@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://drdqtuuobmjis"]
+
+[ext_resource type="Script" path="res://scripts/stationary_submarine.gd" id="1_r8h30"]
+[ext_resource type="Texture2D" uid="uid://bxa3xsp3moxuk" path="res://assets/батискафик.png" id="2_8ftrs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d5pko"]
+radius = 3.0
+
+[node name="stationary_submarine" type="Area2D"]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("1_r8h30")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(2.58079, -2.19489)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(55.12, 55.36)
+shape = SubResource("CircleShape2D_d5pko")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_8ftrs")
+flip_h = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]

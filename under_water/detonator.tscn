@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://rjisclvdnvap"]
+
+[ext_resource type="Script" path="res://scripts/detonator.gd" id="1_4rc07"]
+[ext_resource type="Texture2D" uid="uid://ccyj55s0euwml" path="res://assets/взрывка.png" id="2_vi1rf"]
+[ext_resource type="Texture2D" uid="uid://k3qxqt1upjh1" path="res://assets/использов взрыв.png" id="3_h65s6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o128p"]
+size = Vector2(30, 31)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hx1tg"]
+radius = 40.0125
+
+[node name="detonator" type="StaticBody2D"]
+z_index = 254
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("1_4rc07")
+
+[node name="active" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_vi1rf")
+
+[node name="used" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+texture = ExtResource("3_h65s6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4.5)
+shape = SubResource("RectangleShape2D_o128p")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_hx1tg")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_body_exited"]

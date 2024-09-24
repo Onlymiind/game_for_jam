@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3 uid="uid://dc5pn7waja7g"]
+
+[ext_resource type="Texture2D" uid="uid://dhbu0fjn8lhud" path="res://assets/рыба злюка.png" id="1_5stqs"]
+[ext_resource type="Script" path="res://scripts/big_fish.gd" id="1_nyfek"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qicgn"]
+radius = 30.303
+height = 171.818
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sdifo"]
+radius = 20.7208
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f038f"]
+radius = 753.172
+
+[node name="big_fish" type="CharacterBody2D"]
+collision_layer = 16
+collision_mask = 5
+script = ExtResource("1_nyfek")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(26.4679, 7.28966)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_5stqs")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+scale = Vector2(1.32, 2.2)
+shape = SubResource("CapsuleShape2D_qicgn")
+
+[node name="mouth" type="Area2D" parent="."]
+position = Vector2(185, 0)
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mouth"]
+scale = Vector2(1.38843, 1.08899)
+shape = SubResource("CircleShape2D_sdifo")
+
+[node name="sight" type="RayCast2D" parent="."]
+collision_mask = 5
+
+[node name="player_detection" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_detection"]
+shape = SubResource("CircleShape2D_f038f")
+
+[node name="dash_cooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]
+[connection signal="body_entered" from="mouth" to="." method="on_player_enter_mouth"]
+[connection signal="body_exited" from="mouth" to="." method="on_player_left_mouth"]
+[connection signal="body_entered" from="player_detection" to="." method="on_player_enter"]
+[connection signal="body_exited" from="player_detection" to="." method="on_player_leave"]
+[connection signal="timeout" from="Timer" to="." method="select_wander_point"]

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://j62ni52j8tsn"]
+
+[ext_resource type="Script" path="res://scripts/submarine.gd" id="1_6tfgp"]
+[ext_resource type="Texture2D" uid="uid://bxa3xsp3moxuk" path="res://assets/батискафик.png" id="2_383kx"]
+
+[node name="submarine" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "camera", "collision")]
+z_index = 250
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_6tfgp")
+inertia = 0.97
+sprite = NodePath("Sprite2D")
+camera = NodePath("Camera2D")
+collision = NodePath("CollisionShape2D")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_383kx")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-103, -45, -47, -45, -4, -37, 39, -31, 84, -13, 101, -1, 101, 29, 103, 46, 79, 53, 58, 65, -69, 46, -102, 7)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = -1280
+limit_top = -720
+limit_right = 6848
+limit_bottom = 2160
