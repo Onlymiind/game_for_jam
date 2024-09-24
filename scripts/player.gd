@@ -7,20 +7,29 @@ class_name Player extends CharacterBody2D
 @export var regen_time: float = 8
 
 @onready var ladder_reset_timer: Timer = $ladder_reset
+@onready var animation: AnimationPlayer = $AnimationPlayer
+@onready var audio: AudioStreamPlayer = $AudioStreamPlayer
 
 const max_stamina: float = 100
 var item_stashes: Dictionary
+
+const run_audio: AudioStream = preload("res://assets/423196__bepis_fast_step.wav")
+const walk_audio: AudioStream = preload("res://assets/423196__bepis__step.wav")
 
 signal open_item_shash(stash: ItemStash)
 signal stamina_changed(percentage: float)
 signal stamina_ran_out
 signal stamina_replenished
+signal can_interact
+signal cannot_interact
 
 var can_run: bool = true
 var stamina_decrease: float
 var stamina_increase: float
 
 var can_teleport: bool = true
+const animation_speed_run: float = 2
+const animation_speed_walk: float = 1
 
 func _ready() -> void:
 	stamina_decrease = max_stamina / running_time
@@ -36,12 +45,33 @@ func _physics_process(delta: float) -> void:
 	
 	var current_speed: float = speed
 	var stamina_delta: float = 0
-	if Input.is_action_pressed("sprint") && can_run:
+	var animation_speed: float = animation_speed_walk
+	if Input.is_action_pressed("sprint") && can_run && dir != Vector2.ZERO:
 		current_speed = sprint_speed
 		stamina_delta = -stamina_decrease * delta
+		animation_speed = animation_speed_run
+		if !audio.playing || audio.stream != run_audio:
+			audio.stream = run_audio
+			audio.play()
 	elif stamina < max_stamina:
 		stamina_delta = stamina_increase * delta
-	
+		if dir == Vector2.ZERO:
+			audio.stop()
+		elif !audio.playing || audio.stream != walk_audio:
+			audio.stream = walk_audio
+			audio.play()
+	elif dir != Vector2.ZERO && (!audio.playing || audio.stream != walk_audio):
+		audio.stream = walk_audio
+		audio.play()
+	if dir != Vector2.ZERO:
+		if !animation.is_playing() || animation.speed_scale != animation_speed:
+			animation.speed_scale = animation_speed
+			animation.play("walk")
+	else:
+		if animation.is_playing():
+			animation.play("RESET")
+		if audio.playing:
+			audio.stop()
 	velocity = dir * current_speed * Constants.tile_size
 	if velocity != Vector2.ZERO || stamina_delta > 0:
 		stamina += stamina_delta
@@ -58,9 +88,12 @@ func _physics_process(delta: float) -> void:
 
 func add_item_stash(stash: ItemStash) -> void:
 	item_stashes[stash] = true
+	can_interact.emit()
 
 func remove_item_stash(stash: ItemStash) -> void:
 	item_stashes.erase(stash)
+	if item_stashes.is_empty():
+		cannot_interact.emit()
 
 func teleport_to_ladder(pos: Vector2) -> void:
 	if !can_teleport:

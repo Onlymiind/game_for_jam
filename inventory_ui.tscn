@@ -1,21 +1,29 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvwyykdvxj10"]
+[gd_scene load_steps=6 format=3 uid="uid://cvwyykdvxj10"]
 
 [ext_resource type="Script" path="res://scripts/inventory_ui.gd" id="1_k2yd7"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_shusg"]
-font_color = Color(0.700475, 0, 0.152167, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_vqkwr"]
+[ext_resource type="Theme" uid="uid://cb08x6h45w6u" path="res://ui_theme.tres" id="2_gm7pw"]
 
 [sub_resource type="Animation" id="Animation_x7xgv"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("VBoxContainer/cannot_close_warning:self_modulate")
+tracks/0/path = NodePath("VBoxContainer/PanelContainer2/cannot_close_warning:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer/PanelContainer2:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -28,10 +36,22 @@ length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("VBoxContainer/cannot_close_warning:self_modulate")
+tracks/0/path = NodePath("VBoxContainer/PanelContainer2/cannot_close_warning:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer/PanelContainer2:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
@@ -55,24 +75,37 @@ script = ExtResource("1_k2yd7")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-grow_horizontal = 2
+offset_left = 8.0
+offset_top = -48.5
+offset_right = 333.0
+offset_bottom = 48.5
 grow_vertical = 2
+alignment = 2
 
-[node name="cannot_close_warning" type="Label" parent="VBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+
+[node name="cannot_close_warning" type="Label" parent="VBoxContainer/PanelContainer2"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme = ExtResource("2_gm7pw")
+theme_override_colors/font_color = Color(0.847059, 0, 0, 1)
 text = "Can't close the inventory
 when an item is held"
-label_settings = SubResource("LabelSettings_shusg")
 horizontal_alignment = 1
 
-[node name="display" type="TextureRect" parent="VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_gm7pw")
+
+[node name="display" type="TextureRect" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+stretch_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -83,30 +116,35 @@ anchor_bottom = 1.0
 offset_left = -198.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme = ExtResource("2_gm7pw")
+theme_override_constants/margin_top = 80
 
-[node name="stash_ui" type="VBoxContainer" parent="MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_gm7pw")
+
+[node name="stash_ui" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="warning" type="Label" parent="MarginContainer/stash_ui"]
+[node name="warning" type="Label" parent="MarginContainer/PanelContainer/stash_ui"]
 layout_mode = 2
-label_settings = SubResource("LabelSettings_vqkwr")
+theme = ExtResource("2_gm7pw")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/stash_ui"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/stash_ui"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ItemList" type="ItemList" parent="MarginContainer/stash_ui/ScrollContainer"]
+[node name="ItemList" type="ItemList" parent="MarginContainer/PanelContainer/stash_ui/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("2_gm7pw")
 allow_reselect = true
 allow_search = false
 
-[node name="control_hint" type="Label" parent="MarginContainer/stash_ui"]
+[node name="control_hint" type="Label" parent="MarginContainer/PanelContainer/stash_ui"]
 layout_mode = 2
+theme = ExtResource("2_gm7pw")
 text = "WASD - move item
 R - rotate item
 Backspace - move item to stash
@@ -117,4 +155,4 @@ libraries = {
 "": SubResource("AnimationLibrary_k77pp")
 }
 
-[connection signal="item_selected" from="MarginContainer/stash_ui/ScrollContainer/ItemList" to="." method="_on_item_selected"]
+[connection signal="item_selected" from="MarginContainer/PanelContainer/stash_ui/ScrollContainer/ItemList" to="." method="_on_item_selected"]

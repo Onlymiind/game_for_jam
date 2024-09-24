@@ -10,7 +10,7 @@ var current_id: int
 func get_bounding_box() -> Rect2:
 	var bounding_box: Rect2 = sprite.get_rect()
 	if abs(rotation - PI / 2) < 1e-3 || abs(rotation - 3 * PI / 2) < 1e-3:
-		var x: int = bounding_box.size.x
+		var x: float = bounding_box.size.x
 		bounding_box.size.x = bounding_box.size.y
 		bounding_box.size.y = x
 	bounding_box.position = sprite.global_position - bounding_box.size / 2
@@ -37,6 +37,8 @@ func set_id(id: int) -> void:
 	sprite.texture = ItemDb.item_textures[id]
 	collision.polygon = ItemDb.item_hitboxes[id]
 	outline.polygon = ItemDb.item_hitboxes[id]
+	print(id)
+	print(collision.polygon)
 	current_id = id
 
 func set_top_left_pos(pos: Vector2) -> void:

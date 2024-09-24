@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfwocw0q1fxyo"]
+
+[ext_resource type="Texture2D" uid="uid://bslyq8c5fdmjl" path="res://assets/ТЕКСТУРЫ ОБНОВЛЕНИЕ КУХНИ.png" id="1_1skt2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wio6"]
+atlas = ExtResource("1_1skt2")
+region = Rect2(512, 185, 69, 75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_17ydn"]
+size = Vector2(64, 53)
+
+[node name="cupboard" type="StaticBody2D"]
+z_index = 1
+collision_layer = 64
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_0wio6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 1
+position = Vector2(-1, 3.5)
+shape = SubResource("RectangleShape2D_17ydn")

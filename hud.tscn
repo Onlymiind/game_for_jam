@@ -1,13 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://c0hvmghvtaxgr"]
+[gd_scene load_steps=6 format=3 uid="uid://c0hvmghvtaxgr"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_y6g5t"]
+[ext_resource type="Theme" uid="uid://cb08x6h45w6u" path="res://ui_theme.tres" id="2_58sdd"]
 
 [sub_resource type="Animation" id="Animation_6de4k"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ProgressBar:modulate")
+tracks/0/path = NodePath("MarginContainer/HBoxContainer/ProgressBar:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -24,7 +25,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ProgressBar:modulate")
+tracks/0/path = NodePath("MarginContainer/HBoxContainer/ProgressBar:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -49,17 +50,65 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_y6g5t")
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
-layout_direction = 2
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.187
-anchor_bottom = 0.037
-offset_right = -0.360016
-offset_bottom = 0.360001
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_58sdd")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/HBoxContainer"]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_58sdd")
 step = 1.0
 value = 1.0
 show_percentage = false
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("2_58sdd")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+alignment = 2
+
+[node name="level_status" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme = ExtResource("2_58sdd")
+
+[node name="time_to_police" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme = ExtResource("2_58sdd")
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+text = "F - interact"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

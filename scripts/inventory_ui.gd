@@ -1,8 +1,8 @@
 class_name InventoryUI extends Control
 
-@onready var item_list: ItemList = $MarginContainer/stash_ui/ScrollContainer/ItemList
-@onready var display: TextureRect = $VBoxContainer/display
-@onready var warning: Label = $MarginContainer/stash_ui/warning
+@onready var item_list: ItemList = $MarginContainer/PanelContainer/stash_ui/ScrollContainer/ItemList
+@onready var display: TextureRect = $VBoxContainer/PanelContainer/display
+@onready var warning: Label = $MarginContainer/PanelContainer/stash_ui/warning
 @onready var cannot_close_warning: AnimationPlayer = $AnimationPlayer
 
 @export var inventory_viewport: SubViewport
@@ -34,10 +34,10 @@ func _on_item_selected(idx: int) -> void:
 func set_top_text(display_warning: bool) -> void:
 	if display_warning:
 		warning.text = "Items here will be removed"
-		warning.label_settings.font_color = Color.FIREBRICK
+		warning.add_theme_color_override("font_color", Color.FIREBRICK)
 	else:
 		warning.text = "Item stash:               "
-		warning.label_settings.font_color = Color.WHITE
+		warning.remove_theme_color_override("font_color")
 
 func close() -> void:
 	cannot_close_warning.stop()

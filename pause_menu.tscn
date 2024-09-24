@@ -1,15 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ccjt185l1ae63"]
+[gd_scene load_steps=4 format=3 uid="uid://ccjt185l1ae63"]
 
-[ext_resource type="PackedScene" path="res://sound_slider.tscn" id="1_drjwl"]
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_tshgr"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_oxanh"]
-font_color = Color(0, 0, 0, 1)
-outline_size = 4
-
-[sub_resource type="LabelSettings" id="LabelSettings_6efdo"]
-font_color = Color(0, 0, 0, 1)
-outline_size = 4
+[ext_resource type="Theme" uid="uid://cb08x6h45w6u" path="res://ui_theme.tres" id="2_bjup7"]
+[ext_resource type="PackedScene" uid="uid://dqc8op4j1uufk" path="res://sound_slider_label.tscn" id="4_o8ga1"]
 
 [node name="pause_menu" type="Control"]
 layout_mode = 3
@@ -20,48 +13,44 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tshgr")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -135.5
+offset_top = -144.0
+offset_right = 135.5
+offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_bjup7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_bjup7")
 text = "Controls:
 WASD - move
 Esc / P - pause/back"
-label_settings = SubResource("LabelSettings_oxanh")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="sound_slider" parent="PanelContainer/VBoxContainer" instance=ExtResource("4_o8ga1")]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="resume" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Sound"
-label_settings = SubResource("LabelSettings_6efdo")
-
-[node name="sound_slider" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_drjwl")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="resume" type="Button" parent="VBoxContainer"]
-layout_mode = 2
+theme = ExtResource("2_bjup7")
 text = "resume"
 
-[node name="quit" type="Button" parent="VBoxContainer"]
+[node name="quit" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_bjup7")
 text = "quit to menu"
 
-[connection signal="pressed" from="VBoxContainer/resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]

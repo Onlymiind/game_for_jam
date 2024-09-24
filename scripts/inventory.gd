@@ -121,3 +121,11 @@ func force_update_cursor() -> void:
 
 func can_close() -> bool:
 	return held_item == null
+
+func get_items() -> PackedInt64Array:
+	var item_ids: PackedInt64Array
+	for child in items.get_children():
+		if !(child is Item):
+			continue
+		item_ids.append((child as Item).current_id)
+	return item_ids

@@ -1,31 +1,31 @@
 class_name ItemStash extends Area2D
 
-@onready var tooltip: Label = $tooltip
 @onready var object_sprite: Sprite2D = $object
 @onready var collision: CollisionShape2D = $CollisionShape2D
 
 @export var item_names: PackedStringArray
 @export var object_texture: Texture
-@export var object_item_id: int = -1
+@export var object_item_name: String
 
 var items: PackedInt64Array
+var object_item_id: int = -1
 
 func _ready() -> void:
-	for name in item_names:
-		items.append(ItemDb.item_names.find(name))
-	$animation.play("blink")
-	object_sprite.texture = object_texture
+	for item_name in item_names:
+		items.append(ItemDb.item_names.find(item_name))
+	if !object_item_name.is_empty():
+		object_item_id = ItemDb.item_names.find(object_item_name)
+		items.append(object_item_id)
+		object_sprite.texture = object_texture
 	update_status()
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
 		(body as Player).add_item_stash(self)
-		tooltip.show()
 
 func _on_body_exited(body: Node2D) -> void:
 	if body is Player:
 		(body as Player).remove_item_stash(self)
-		tooltip.hide()
 
 func take_item(idx: int) -> int:
 	if idx < 0 || idx >= items.size():
@@ -45,6 +45,7 @@ func update_status() -> void:
 		object_sprite.show()
 	else:
 		object_sprite.hide()
+		print(object_sprite.visible)
 
 func add_item(id: int) -> void:
 	items.append(id)
