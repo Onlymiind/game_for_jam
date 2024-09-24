@@ -23,4 +23,6 @@ Background music - Cartoon Mischief by Aberrant Realities from Pixabay (`cartoon
 
 Font - Handjet by Rosetta, David Březina via Google Fonts (`Handjet-VariableFont_ELGR,ELSH,wght.ttf`)
 
+Godot Git plugin - MIT license, can be found here https://github.com/godotengine/godot-git-plugin
+
 Engine - Godot 4.3
