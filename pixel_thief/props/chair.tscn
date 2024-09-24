@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ch8uy3xp46l2h"]
+
+[ext_resource type="Texture2D" uid="uid://nr3tcc2r3qqi" path="res://assets/текстурики разные.png" id="1_e2iyk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_an0yg"]
+atlas = ExtResource("1_e2iyk")
+region = Rect2(293, 22, 24, 42)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_06kck"]
+size = Vector2(20, 18.5)
+
+[node name="chair" type="StaticBody2D"]
+z_index = 1
+collision_layer = 64
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_an0yg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8.75)
+shape = SubResource("RectangleShape2D_06kck")

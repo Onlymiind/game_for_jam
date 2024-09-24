@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://crmf0qp1hak7m"]
+
+[ext_resource type="Texture2D" uid="uid://nr3tcc2r3qqi" path="res://assets/текстурики разные.png" id="1_vvg1i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5apc7"]
+atlas = ExtResource("1_vvg1i")
+region = Rect2(98.0692, 4.3363, 8.61813, 25.3756)
+
+[node name="small_vase" type="Sprite2D"]
+z_index = 1
+texture = SubResource("AtlasTexture_5apc7")

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck07t2p4p8enc"]
+
+[ext_resource type="Texture2D" uid="uid://nr3tcc2r3qqi" path="res://assets/текстурики разные.png" id="1_73r5m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsia1"]
+atlas = ExtResource("1_73r5m")
+region = Rect2(67, 8, 25, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yslm6"]
+
+[node name="table" type="StaticBody2D"]
+z_index = 1
+collision_layer = 64
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_bsia1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_yslm6")
